@@ -88,15 +88,15 @@ Hosting
 
 Main Interface
 
-"NebulaBeat" (assets/screenshot-main.jpg)
+images/screenshot-main.jpg
 
 Spotify Integration
 
-"Spotify" (assets/screenshot-spotify.jpg)
+images/screenshot-spotify.jpg
 
 Multiplayer Rooms
 
-"Rooms" (assets/screenshot-room.jpg)
+images/screenshot-room.jpg
 
 ---
 
