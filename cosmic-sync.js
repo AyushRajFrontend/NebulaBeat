@@ -33,7 +33,7 @@
   function joinSocket(code) {
     // Dynamically load Socket.io client if not already present
     function connect() {
-      SYNC.socket = io(SERVER_URL, { transports: ['websocket'], reconnectionAttempts: 5 });
+      SYNC.socket = io(SERVER_URL, { transports: ['websocket'], reconnectionAttempts: Infinity, reconnectionDelayMax: 5000 });
 
       SYNC.socket.on('connect', () => {
         SYNC.socket.emit('join', { room: code, label: getMyLabel() });
@@ -82,6 +82,13 @@
       });
 
       SYNC.socket.on('disconnect', () => {
+        // Without this, a reconnect reuses the now-dead RTCPeerConnections
+        // (getPeerConnection sees the old map entry and never makes a fresh
+        // one) — audio breaks permanently and dead connections pile up,
+        // which is what was causing the growing visual lag too.
+        closeAllPeerConnections();
+        SYNC.peers.clear();
+        updatePeersUI();
         updateBadge('OFFLINE');
         updateStatus('Disconnected from server.');
       });
@@ -164,7 +171,15 @@
   /* ════════════════════════════════════
      WEBRTC AUDIO SHARING
   ════════════════════════════════════ */
-  const ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }];
+  const ICE_SERVERS = [
+    { urls: 'stun:stun.l.google.com:19302' },
+    // Free public TURN relay — needed when peers are on different networks
+    // (e.g. one on WiFi, one on mobile data). STUN alone often can't punch
+    // through carrier-grade NAT, which is extremely common on Indian mobile networks.
+    { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
+    { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+    { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
+  ];
 
   function getLocalStream() {
     return window.NebulaAudio?.recordStream || null;
