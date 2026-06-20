@@ -122,13 +122,23 @@ Open `index.html` in your browser or use Live Server.
 
 ## 🌐 Deployment
 
-Frontend
+### Frontend
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Web Audio API
+- Canvas API
 
-GitHub Pages
+### Backend
+- Node.js
+- Express.js
+- Socket.IO
 
-Backend
-
-Railway
+### APIs & Services
+- Spotify Web API
+- Spotify Web Playback SDK
+- WebRTC
+- Railway
 
 ---
 
@@ -163,11 +173,11 @@ GitHub: https://github.com/AyushRajFrontend
 
 ---
 
-⭐ Support
+## ⭐ Support
 
 If you like NebulaBeat, consider giving the repository a star ⭐
 
 ---
 
 ### 🌌 NebulaBeat
-**Feel the Music. See the Universe.**
+### Feel the Music. See the Universe.
