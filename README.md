@@ -1,6 +1,6 @@
 🌌 NebulaBeat
 
-"NebulaBeat Banner" images/preview.png
+![Portfolio Preview](images/preview.png)
 
 Feel the Music. See the Universe.
 
