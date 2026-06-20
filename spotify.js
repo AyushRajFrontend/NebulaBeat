@@ -92,8 +92,6 @@ const SPOTIFY_SCOPES    = [
         })
       });
       const data = await res.json();
-      alert(JSON.stringify(data));
-      console.log(data);
       if (data.access_token) {
         SP.token = data.access_token;
         sessionStorage.setItem('sp_token', SP.token);
