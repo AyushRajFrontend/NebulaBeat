@@ -1,6 +1,6 @@
 🌌 NebulaBeat
 
-![Portfolio Preview](images/preview.png)
+![NebulaBeat Preview](images/preview.png)
 
 Feel the Music. See the Universe.
 
@@ -88,15 +88,15 @@ Hosting
 
 Main Interface
 
-images/screenshot-main.jpg
+[!NebulaBeat Screenshot](images/screenshot-main.jpg)
 
 Spotify Integration
 
-images/screenshot-spotify.jpg
+[!NebulaBeat Screenshot](images/screenshot-spotify.jpg)
 
 Multiplayer Rooms
 
-images/screenshot-room.jpg
+[!NebulaBeat Screenshot](images/screenshot-room.jpg)
 
 ---
 
