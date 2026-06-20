@@ -88,15 +88,15 @@ Hosting
 
 Main Interface
 
-(images/screenshot-main.jpg)
+[](images/screenshot-main.jpg)
 
 Spotify Integration
 
-(images/screenshot-spotify.jpg)
+[](images/screenshot-spotify.jpg)
 
 Multiplayer Rooms
 
-(images/screenshot-room.jpg)
+[](images/screenshot-room.jpg)
 
 ---
 
