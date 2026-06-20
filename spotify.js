@@ -119,9 +119,6 @@ const SPOTIFY_SCOPES    = [
     });
 
     SP.player.addListener('ready', ({ device_id }) => {
-
-       alert("Spotify Player Ready");
-       
       SP.deviceId = device_id;
       console.log('[Spotify] Ready, device:', device_id);
       updateSpotifyUI('connected');
@@ -133,12 +130,16 @@ const SPOTIFY_SCOPES    = [
     SP.player.addListener('not_ready', () => updateSpotifyUI('disconnected'));
 
     SP.player.addListener('initialization_error', ({ message }) => {
-    alert("INIT ERROR: " + message);
+    console.log('[Spotify Init Error]', message);
     });
-
-     SP.player.addListener('account_error', ({ message }) => {
-     alert("ACCOUNT ERROR: " + message);
-     });
+     
+   SP.player.addListener('account_error', ({ message }) => {
+   showSpotifyToast(
+    'Spotify Premium required for in-app playback.',
+    'error'
+    );
+   console.log('[Spotify Account Error]', message);
+   });
      
     SP.player.addListener('player_state_changed', state => {
       SP.state = state;
@@ -146,9 +147,7 @@ const SPOTIFY_SCOPES    = [
     });
 
     SP.player.addListener('authentication_error', () => {
-       
-       alert("AUTH ERROR: " + message);
-       
+       console.log('[Spotify Auth Error]', message);
       showSpotifyToast('⚠ Spotify auth expired. Please reconnect.', 'error');
       updateSpotifyUI('disconnected');
     });
