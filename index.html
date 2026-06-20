@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NebulaBeat — Galaxy Music Visualizer</title>
+  <meta name="description" content="An interactive galaxy that dances to your music.">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#04050f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NebulaBeat">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <canvas id="canvas"></canvas>
+  <div id="beatFlash" class="beat-flash"></div>
+
+  <!-- ── HEADER ── -->
+  <header class="nb-header">
+    <div class="nb-logo">NEBULA<span>BEAT</span></div>
+    <div class="scene-switcher">
+      <button class="scene-btn active" data-scene="galaxy">🌌 Galaxy</button>
+      <button class="scene-btn" data-scene="ring">💫 Ring</button>
+    </div>
+    <div class="header-right">
+      <div class="theme-switcher">
+        <button class="theme-btn active" data-theme="blue"  title="Nebula Blue"></button>
+        <button class="theme-btn"        data-theme="red"   title="Solar Red"></button>
+        <button class="theme-btn"        data-theme="green" title="Aurora Green"></button>
+      </div>
+      <!-- SETTINGS BUTTON -->
+      <button class="settings-btn" id="settingsBtn" title="Settings ⚙️">⚙️</button>
+    </div>
+  </header>
+
+  <!-- ── UPLOAD SCREEN ── -->
+  <div id="uploadZone" class="upload-zone">
+    <div class="upload-inner">
+      <div class="upload-orbit">
+        <div class="orbit-ring r1"></div>
+        <div class="orbit-ring r2"></div>
+        <div class="orbit-ring r3"></div>
+        <div class="orbit-core"></div>
+      </div>
+      <h1 class="upload-title">Drop your music<br><span>into the galaxy</span></h1>
+      <p class="upload-sub">Upload a song and watch the universe dance to it</p>
+      <div class="upload-actions">
+        <label for="fileInput" class="upload-btn btn-primary">🎵 Upload Song</label>
+        <input type="file" id="fileInput" accept="audio/*" hidden>
+        <button class="upload-btn btn-secondary" id="micBtn">🎤 Use Mic</button>
+        <button class="upload-btn btn-secondary" id="demoBtn">✨ Demo Mode</button>
+      </div>
+      <p class="upload-formats">MP3 · WAV · OGG · FLAC &nbsp;·&nbsp; 🖱️ Click = Explosion &nbsp;·&nbsp; 🕳️ Hold = Black Hole</p>
+    </div>
+  </div>
+
+  <!-- ── PLAYER BAR ── -->
+  <div id="player" class="player hidden">
+    <div class="player-left">
+      <div class="player-disc" id="playerDisc">🎵</div>
+      <div class="player-info">
+        <div class="player-title" id="playerTitle">Unknown Track</div>
+        <div class="player-mode"  id="playerMode">NebulaBeat</div>
+      </div>
+    </div>
+    <div class="player-center">
+      <button class="skip-btn" id="prevBtn" title="Previous">⏮</button>
+      <button class="ctrl-btn" id="playBtn">
+        <span id="playIcon">▶</span>
+        <span id="pauseIcon" style="display:none">⏸</span>
+      </button>
+      <button class="skip-btn" id="nextBtn" title="Next">⏭</button>
+      <div class="progress-wrap">
+        <span class="time-lbl" id="currentTime">0:00</span>
+        <div class="progress-track" id="progressTrack">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="time-lbl" id="totalTime">0:00</span>
+      </div>
+      <!-- Volume Slider -->
+      <div class="volume-wrap" id="volumeWrap">
+        <button class="vol-icon" id="volIcon" title="Mute/Unmute">🔊</button>
+        <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="80" step="1">
+      </div>
+    </div>
+    <div class="player-right">
+      <div class="mini-bars" id="miniBars">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <!-- AI Genre Badge -->
+      <div class="ai-genre-badge" id="aiGenreBadge" title="AI Genre Detector">
+        <span class="ai-dot"></span><span id="aiGenreLabel">AI</span>
+      </div>
+      <button class="ctrl-sm" id="gyroBtn" title="Gyroscope" style="display:none">🌍</button>
+      <label for="fileInput2" class="ctrl-sm" title="Add song">＋</label>
+      <input type="file" id="fileInput2" accept="audio/*" hidden>
+      <button class="ctrl-sm" id="micToggle" title="Mic">🎤</button>
+      <!-- Spotify -->
+      <button class="ctrl-sm spotify-btn" id="spotifyPanelBtn" title="Spotify">🎵</button>
+      <!-- Record Session Button -->
+      <button class="ctrl-sm" id="recordBtn" title="Record Cosmic Session">⏺</button>
+      <!-- Cosmic Sync Button -->
+      <button class="ctrl-sm" id="syncBtn" title="Cosmic Sync — share your galaxy">🌐</button>
+      <!-- PWA Install Button (shown only when installable) -->
+      <button class="ctrl-sm" id="pwaInstallBtn" title="Install App" style="display:none">📲</button>
+      <button class="ctrl-sm pl-toggle-btn" id="playlistBtn" title="Playlist">☰</button>
+    </div>
+  </div>
+
+  <!-- ── PLAYLIST PANEL ── -->
+  <div id="playlistPanel" class="playlist-panel">
+    <div class="pl-header">
+      <span class="pl-title">🎵 Playlist</span>
+      <span class="pl-count" id="playlistCount">No tracks</span>
+      <button class="pl-close" id="plClose">✕</button>
+    </div>
+    <div class="pl-items" id="playlistItems">
+      <p class="pl-empty">Upload songs to build your playlist.</p>
+    </div>
+    <div class="pl-footer">
+      <label for="fileInput3" class="upload-btn btn-primary" style="font-size:13px;padding:10px 20px">＋ Add Songs</label>
+      <input type="file" id="fileInput3" accept="audio/*" multiple hidden>
+    </div>
+  </div>
+
+  <!-- ── SETTINGS PANEL ── -->
+  <div id="settingsPanel" class="settings-panel">
+    <div class="sp-header">
+      <span class="sp-title">⚙️ Settings</span>
+      <button class="sp-close" id="spClose">✕</button>
+    </div>
+    <div class="sp-body">
+
+      <div class="sp-section">
+        <div class="sp-label">
+          <span>✦ Stars</span>
+          <span class="sp-val" id="starCountVal">2,000</span>
+        </div>
+        <input type="range" class="sp-slider" id="starCountSlider" min="200" max="5000" value="2000" step="100">
+        <div class="sp-hints"><span>Lite (200)</span><span>Extreme (5000)</span></div>
+      </div>
+
+      <div class="sp-section">
+        <div class="sp-label">
+          <span>⚡ Speed</span>
+          <span class="sp-val" id="speedVal">1.0×</span>
+        </div>
+        <input type="range" class="sp-slider" id="speedSlider" min="2" max="30" value="10" step="1">
+        <div class="sp-hints"><span>Slow (0.2×)</span><span>Fast (3.0×)</span></div>
+      </div>
+
+      <div class="sp-section">
+        <div class="sp-label">
+          <span>🎚️ Sensitivity</span>
+          <span class="sp-val" id="sensitivityVal">1.0×</span>
+        </div>
+        <input type="range" class="sp-slider" id="sensitivitySlider" min="2" max="30" value="10" step="1">
+        <div class="sp-hints"><span>Calm (0.2×)</span><span>Wild (3.0×)</span></div>
+      </div>
+
+      <div class="sp-tip">
+        <div class="sp-tip-row">🖱️ <strong>Click</strong> galaxy → Star explosion</div>
+        <div class="sp-tip-row">🕳️ <strong>Hold & drag</strong> → Black hole gravity</div>
+        <div class="sp-tip-row">🎵 <strong>Bass drop</strong> → Stars blast free!</div>
+        <div class="sp-tip-row">📱 <strong>Tilt phone</strong> → Galaxy tilts</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-hud">
+    <span id="fpsDisplay">60 FPS</span>
+    <span id="starDisplay">2000 ✦</span>
+  </div>
+
+  <!-- ── COSMIC SYNC PANEL ── -->
+  <div id="syncPanel" class="sync-panel">
+    <div class="sync-header">
+      <span class="sync-title">🌐 Cosmic Sync</span>
+      <span class="sync-badge" id="syncBadge">OFFLINE</span>
+      <span class="sync-mode-tag" id="syncModeTag"></span>
+      <button class="sp-close" id="syncClose">✕</button>
+    </div>
+    <div class="sync-body">
+      <div class="sync-room-row">
+        <input class="sync-input" id="syncRoomInput" placeholder="Room code (e.g. nebula42)" maxlength="20">
+        <button class="sync-join-btn" id="syncJoinBtn">Join / Create</button>
+      </div>
+      <div class="sync-status" id="syncStatus">Enter a room code to sync your galaxy.</div>
+      <div class="sync-peers" id="syncPeers"></div>
+      <div class="sync-tip">💡 Same room code = synced galaxy. Explosions, black holes, themes all broadcast live!</div>
+    </div>
+  </div>
+
+  <!-- ── SPOTIFY PANEL ── -->
+  <div id="spotifyPanel" class="spotify-panel">
+    <div class="sp2-header">
+      <span class="sp2-title">🎵 Spotify</span>
+      <span class="sp-badge" id="spBadge">OFFLINE</span>
+      <button class="sp-close" id="spClose2">✕</button>
+    </div>
+    <div class="sp2-body">
+      <!-- Now Playing -->
+      <div class="sp-now-playing" id="spNowPlaying">
+        <img id="spArt" class="sp-art" alt="" style="display:none">
+        <div class="sp-now-info">
+          <div class="sp-now-track" id="spNowTrack">Not playing</div>
+          <div class="sp-now-artist" id="spNowArtist">Connect Spotify to stream</div>
+        </div>
+      </div>
+      <!-- Login -->
+      <button class="sp-login-btn" id="spotifyLoginBtn">🔗 Connect Spotify</button>
+
+      <!-- Search (shown after login) -->
+      <div class="sp-search-wrap" id="spSearchWrap" style="display:none">
+        <div class="sp-search-row">
+          <input class="sp-search-input" id="spSearchInput" placeholder="Search songs, artists…">
+          <button class="sp-search-btn" id="spSearchBtn">🔍</button>
+        </div>
+        <div class="sp-results" id="spResults"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PWA INSTALL BANNER ── -->
+  <div id="pwaBanner" class="pwa-banner hidden">
+    <div class="pwa-banner-icon">🌌</div>
+    <div class="pwa-banner-text">
+      <strong>Install NebulaBeat</strong>
+      <span>Add to home screen for offline use</span>
+    </div>
+    <button class="pwa-install-btn" id="pwaInstallBannerBtn">Install</button>
+    <button class="pwa-dismiss-btn" id="pwaDismissBtn">✕</button>
+  </div>
+
+  <!-- Recording toast -->
+  <div id="recordToast" class="record-toast hidden">
+    <span class="rec-dot"></span><span id="recordToastLabel">Recording…</span>
+  </div>
+
+  <!-- ══ EXPORT COMPLETE MODAL ══ -->
+  <div id="exportModal" class="nb-modal-overlay hidden">
+    <div class="nb-modal export-modal">
+      <canvas id="exportStars" class="export-stars-bg"></canvas>
+      <div class="export-header">
+        <div class="export-icon-wrap">
+          <div class="export-orbit-ring"></div>
+          <span class="export-icon">🎬</span>
+        </div>
+        <div class="export-title-block">
+          <div class="export-eyebrow">COSMIC SESSION</div>
+          <h2 class="export-title">Export Complete</h2>
+        </div>
+      </div>
+      <div class="export-stats">
+        <div class="export-stat">
+          <span class="estat-icon">⏱</span>
+          <span class="estat-val" id="exportDuration">—</span>
+          <span class="estat-label">Duration</span>
+        </div>
+        <div class="export-stat-divider"></div>
+        <div class="export-stat">
+          <span class="estat-icon">🖥</span>
+          <span class="estat-val" id="exportResolution">—</span>
+          <span class="estat-label">Resolution</span>
+        </div>
+        <div class="export-stat-divider"></div>
+        <div class="export-stat">
+          <span class="estat-icon">💾</span>
+          <span class="estat-val" id="exportSize">—</span>
+          <span class="estat-label">File Size</span>
+        </div>
+      </div>
+      <div class="export-preview-wrap">
+        <!-- Thumbnail snapshot shown as poster -->
+        <img id="exportThumb" class="export-thumb" alt="Session thumbnail" style="display:none">
+        <video id="exportPreviewVideo" class="export-preview-video" controls loop muted playsinline></video>
+        <div class="export-preview-overlay" id="exportPreviewOverlay">
+          <button class="export-play-btn" id="exportPlayBtn">▶ Preview</button>
+        </div>
+      </div>
+      <div class="export-actions">
+        <button class="export-btn-download" id="exportDownloadBtn">
+          <span class="ebtn-icon">⬇</span> Download .webm
+        </button>
+        <button class="export-btn-close" id="exportCloseBtn">✕ Close</button>
+      </div>
+      <div class="export-share-hint">Ready to share on Instagram · LinkedIn · Twitter</div>
+    </div>
+  </div>
+
+  <!-- ══ MIC ERROR MODAL ══ -->
+  <div id="micErrorModal" class="nb-modal-overlay hidden">
+    <div class="nb-modal mic-error-modal">
+      <canvas id="micErrorStars" class="export-stars-bg"></canvas>
+      <div class="mic-error-icon-wrap">
+        <div class="mic-error-ring"></div>
+        <span class="mic-error-icon">🎤</span>
+      </div>
+      <h2 class="mic-error-title">Mic Access Blocked</h2>
+      <p class="mic-error-desc" id="micErrorDesc">NebulaBeat needs your microphone to visualize live audio.</p>
+      <div class="mic-error-steps">
+        <div class="mic-step"><span class="mic-step-num">1</span><span>Click the 🔒 lock in your browser address bar</span></div>
+        <div class="mic-step"><span class="mic-step-num">2</span><span>Set <strong>Microphone</strong> → <strong>Allow</strong></span></div>
+        <div class="mic-step"><span class="mic-step-num">3</span><span>Reload the page and tap 🎤 again</span></div>
+      </div>
+      <div class="mic-error-actions">
+        <button class="mic-retry-btn" id="micRetryBtn">🎤 Try Again</button>
+        <button class="mic-dismiss-btn" id="micDismissBtn">Use File Instead</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="particles.js"></script>
+  <script src="audio.js"></script>
+  <script src="genre-ai.js"></script>
+  <script src="recorder.js"></script>
+  <script src="cosmic-sync.js"></script>
+  <script src="spotify.js"></script>
+  <script src="ui.js"></script>
+  <script>
+    /* ── fileInput3 ── */
+    document.getElementById('fileInput3').addEventListener('change', function(e) {
+      if (window._nbHandleFiles) window._nbHandleFiles(e.target.files);
+      this.value='';
+    });
+
+    /* ── Mic error modal starfield ── */
+    window.spawnMicModalStars = function() {
+      const c = document.getElementById('micErrorStars');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      c.width = c.offsetWidth || 380; c.height = c.offsetHeight || 400;
+      const stars = Array.from({length:45}, () => ({
+        x:Math.random()*c.width, y:Math.random()*c.height,
+        r:Math.random()*1.1+0.2, a:Math.random(), da:(Math.random()-0.5)*0.014
+      }));
+      (function draw() {
+        if (!c.isConnected) return;
+        ctx.clearRect(0,0,c.width,c.height);
+        stars.forEach(s => {
+          s.a+=s.da; if(s.a>1||s.a<0) s.da*=-1;
+          ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+          ctx.fillStyle=`rgba(252,165,165,${Math.max(0,Math.min(1,s.a))*0.7})`; ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      })();
+    };
+
+    /* ══ PWA SERVICE WORKER ══ */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(r => console.log('[PWA] SW registered', r.scope))
+        .catch(e => console.warn('[PWA] SW failed', e));
+    }
+
+    /* ══ PWA INSTALL PROMPT ══ */
+    let _deferredInstall = null;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      _deferredInstall = e;
+      // Show banner + header button
+      document.getElementById('pwaBanner')?.classList.remove('hidden');
+      document.getElementById('pwaInstallBtn').style.display = 'flex';
+    });
+
+    function triggerInstall() {
+      if (!_deferredInstall) return;
+      _deferredInstall.prompt();
+      _deferredInstall.userChoice.then(r => {
+        if (r.outcome === 'accepted') {
+          document.getElementById('pwaBanner')?.classList.add('hidden');
+          document.getElementById('pwaInstallBtn').style.display = 'none';
+        }
+        _deferredInstall = null;
+      });
+    }
+
+    document.getElementById('pwaInstallBtn')?.addEventListener('click', triggerInstall);
+    document.getElementById('pwaInstallBannerBtn')?.addEventListener('click', triggerInstall);
+    document.getElementById('pwaDismissBtn')?.addEventListener('click', () => {
+      document.getElementById('pwaBanner')?.classList.add('hidden');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      document.getElementById('pwaBanner')?.classList.add('hidden');
+      document.getElementById('pwaInstallBtn').style.display = 'none';
+    });
+
+    /* ══ VOLUME SLIDER ══ */
+    (function initVolume() {
+      const slider  = document.getElementById('volSlider');
+      const volIcon = document.getElementById('volIcon');
+      let lastVol   = 80;
+
+      function setVol(v) {
+        const vol = v / 100;
+        // Set on HTML audio element
+        const el = window.NebulaAudio?.el;
+        if (el) el.volume = vol;
+        // Set on Spotify player if connected
+        window.NebulaSpotify?.getPlayer()?.setVolume(vol).catch(()=>{});
+        // Icon
+        if (volIcon) volIcon.textContent = v === 0 ? '🔇' : v < 40 ? '🔉' : '🔊';
+      }
+
+      slider?.addEventListener('input', () => {
+        lastVol = parseInt(slider.value);
+        setVol(lastVol);
+      });
+
+      volIcon?.addEventListener('click', () => {
+        if (parseInt(slider.value) > 0) {
+          lastVol = parseInt(slider.value);
+          slider.value = 0; setVol(0);
+        } else {
+          slider.value = lastVol; setVol(lastVol);
+        }
+      });
+
+      // Apply volume whenever a new track loads
+      document.addEventListener('nb_track_loaded', () => setVol(parseInt(slider?.value || 80)));
+
+      // Keyboard shortcut: M = mute toggle
+      document.addEventListener('keydown', e => {
+        if (['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+        if (e.key === 'm' || e.key === 'M') volIcon?.click();
+        if (e.key === 'ArrowUp')   { slider.value = Math.min(100, parseInt(slider.value)+5); setVol(parseInt(slider.value)); }
+        if (e.key === 'ArrowDown') { slider.value = Math.max(0,   parseInt(slider.value)-5); setVol(parseInt(slider.value)); }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "nebulabeat-server",
+  "version": "1.0.0",
+  "description": "NebulaBeat Socket.io Multiplayer Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "socket.io": "^4.7.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
