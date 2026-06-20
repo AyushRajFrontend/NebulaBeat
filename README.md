@@ -17,7 +17,7 @@ NebulaBeat is a futuristic galaxy-themed music visualizer built with modern web 
 
 ---
 
-✨ Features
+## ✨ Features
 
 🎵 Audio Visualizer
 
@@ -61,7 +61,7 @@ NebulaBeat is a futuristic galaxy-themed music visualizer built with modern web 
 
 ---
 
-🚀 Tech Stack
+## 🚀 Tech Stack
 
 Frontend
 
@@ -91,7 +91,7 @@ Hosting
 
 ---
 
-📸 Screenshots
+## 📸 Screenshots
 
 Main Interface
 
@@ -107,32 +107,20 @@ Multiplayer Rooms
 
 ---
 
-📦 Installation
+## 📦 Installation
 
-Clone Repository
+### Run Locally
 
 ```bash
 git clone https://github.com/AyushRajFrontend/NebulaBeat.git
 cd NebulaBeat
 ```
 
-Open Project
-
-cd NebulaBeat
-
-Run
-
-Simply open:
-
-index.html
-
-or use:
-
-Live Server
+Open `index.html` in your browser or use Live Server.
 
 ---
 
-🌐 Deployment
+## 🌐 Deployment
 
 Frontend
 
@@ -144,7 +132,7 @@ Railway
 
 ---
 
-🔥 Core Technologies Used
+## 🔥 Core Technologies Used
 
 - Web Audio API
 - Canvas Rendering
@@ -156,7 +144,7 @@ Railway
 
 ---
 
-🎯 Future Plans
+## 🎯 Future Plans
 
 - Real-time Shared Listening Rooms
 - Playlist Synchronization
@@ -167,12 +155,11 @@ Railway
 
 ---
 
-👨‍💻 Developer
+## 👨‍💻 Developer
 
 Ayush Raj
 
-GitHub:
-https://github.com/AyushRajFrontend
+GitHub: https://github.com/AyushRajFrontend
 
 ---
 
@@ -182,6 +169,5 @@ If you like NebulaBeat, consider giving the repository a star ⭐
 
 ---
 
-NebulaBeat
-
-### Feel the Music. See the Universe.
+### 🌌 NebulaBeat
+**Feel the Music. See the Universe.**
