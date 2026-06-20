@@ -63,30 +63,22 @@ NebulaBeat is a futuristic galaxy-themed music visualizer built with modern web 
 
 ## 🚀 Tech Stack
 
-Frontend
-
+### Frontend
 - HTML5
 - CSS3
 - JavaScript (ES6+)
 - Web Audio API
 - Canvas API
 
-Backend
-
+### Backend
 - Node.js
 - Express.js
 - Socket.IO
 
-APIs & Services
-
+### APIs & Services
 - Spotify Web API
 - Spotify Web Playback SDK
 - WebRTC
-- Railway Deployment
-
-Hosting
-
-- GitHub Pages
 - Railway
 
 ---
@@ -122,23 +114,13 @@ Open `index.html` in your browser or use Live Server.
 
 ## 🌐 Deployment
 
-### Frontend
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-- Web Audio API
-- Canvas API
+Frontend
 
-### Backend
-- Node.js
-- Express.js
-- Socket.IO
+GitHub Pages
 
-### APIs & Services
-- Spotify Web API
-- Spotify Web Playback SDK
-- WebRTC
-- Railway
+Backend
+
+Railway
 
 ---
 
