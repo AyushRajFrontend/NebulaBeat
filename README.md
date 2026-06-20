@@ -1,3 +1,9 @@
+![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Spotify](https://img.shields.io/badge/Spotify-1DB954?style=for-the-badge&logo=spotify&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge)
+
 🌌 NebulaBeat
 
 ![NebulaBeat Preview](images/preview.png)
@@ -6,7 +12,7 @@ Feel the Music. See the Universe.
 
 NebulaBeat is a futuristic galaxy-themed music visualizer built with modern web technologies. Upload your music, visualize audio in real-time, search Spotify tracks, create multiplayer rooms, record visualizer sessions, and install the app as a Progressive Web App.
 
-🔗 Live Demo: https://ayushrajfrontend.github.io/NebulaBeat/
+🔗 **Live Demo:** https://ayushrajfrontend.github.io/NebulaBeat/
 
 ---
 
@@ -88,15 +94,15 @@ Hosting
 
 Main Interface
 
-[](images/screenshot-main.jpg)
+![Main Interface](images/screenshot-main.jpg)
 
 Spotify Integration
 
-[](images/screenshot-spotify.jpg)
+![Spotify Integration](images/screenshot-spotify.jpg)
 
 Multiplayer Rooms
 
-[](images/screenshot-room.jpg)
+![Multiplayer Rooms](images/screenshot-room.jpg)
 
 ---
 
