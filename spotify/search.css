@@ -1,0 +1,115 @@
+/* ══════════════════════════════════════════
+   NEBULABEAT — SPOTIFY PREMIUM SEARCH
+   ══════════════════════════════════════════ */
+
+/* ── TYPE TABS ── */
+.spsr-tabs {
+  display: flex; gap: 6px;
+  margin: 10px 0 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.spsr-tabs::-webkit-scrollbar { display: none; }
+.spsr-tab {
+  flex-shrink: 0;
+  padding: 6px 14px; border-radius: 20px;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.55); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: .2s;
+  font-family: 'Inter', sans-serif;
+}
+.spsr-tab:hover { background: rgba(255,255,255,.1); color: #fff; }
+.spsr-tab.active {
+  background: rgba(30,215,96,.15); border-color: rgba(30,215,96,.35);
+  color: #1ed760;
+}
+
+/* ── RESULT ROWS ── */
+.sp-results { display: flex; flex-direction: column; gap: 3px; }
+
+.spsr-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 8px; border-radius: 10px;
+  cursor: pointer; transition: background .15s;
+  animation: spsrFadeIn .3s ease backwards;
+}
+.spsr-row:hover { background: rgba(255,255,255,.05); }
+.spsr-row.spsr-selected { background: rgba(30,215,96,.1); outline: 1px solid rgba(30,215,96,.3); }
+@keyframes spsrFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.spsr-art {
+  width: 40px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0;
+  background: rgba(255,255,255,.06);
+}
+.spsr-art-artist { border-radius: 50%; } 
+
+.spsr-row-info { min-width: 0; flex: 1; }
+.spsr-row-name {
+  font-size: 13px; font-weight: 600; color: #fff;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.spsr-row-sub {
+  font-size: 11px; color: rgba(255,255,255,.4);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.spsr-highlight {
+  background: rgba(30,215,96,.25); color: #1ed760;
+  border-radius: 3px; padding: 0 1px;
+}
+.spsr-type-tag {
+  flex-shrink: 0;
+  font-size: 9px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  background: rgba(255,255,255,.05);
+  padding: 3px 7px; border-radius: 6px;
+}
+
+/* ── SKELETON LOADING ── */
+.spsr-skeleton { display: flex; align-items: center; gap: 10px; padding: 7px 8px; }
+.spsr-skeleton-art {
+  width: 40px; height: 40px; border-radius: 6px; flex-shrink: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,.04) 25%, rgba(255,255,255,.09) 37%, rgba(255,255,255,.04) 63%);
+  background-size: 400% 100%;
+  animation: spsrShimmer 1.4s ease infinite;
+}
+.spsr-skeleton-lines { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.spsr-skeleton-lines div {
+  height: 9px; border-radius: 4px;
+  background: linear-gradient(90deg, rgba(255,255,255,.04) 25%, rgba(255,255,255,.09) 37%, rgba(255,255,255,.04) 63%);
+  background-size: 400% 100%;
+  animation: spsrShimmer 1.4s ease infinite;
+}
+.spsr-skeleton-lines div:first-child { width: 60%; }
+.spsr-skeleton-lines div:last-child { width: 40%; }
+@keyframes spsrShimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+
+/* ── NO RESULTS ── */
+.spsr-no-results {
+  text-align: center; padding: 32px 16px;
+  color: rgba(255,255,255,.35);
+}
+.spsr-no-results-icon { font-size: 26px; margin-bottom: 8px; opacity: .6; }
+
+/* ── SEARCH HISTORY ── */
+.spsr-history-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  padding: 4px 6px 8px;
+}
+.spsr-clear-history {
+  background: none; border: none; color: rgba(255,255,255,.3);
+  font-size: 10px; cursor: pointer; text-decoration: underline;
+}
+.spsr-clear-history:hover { color: #fff; }
+.spsr-history-item {
+  padding: 8px 8px; border-radius: 8px;
+  font-size: 13px; color: rgba(255,255,255,.6);
+  cursor: pointer; transition: background .15s;
+}
+.spsr-history-item:hover { background: rgba(255,255,255,.05); color: #fff; }
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .spsr-row, .spsr-skeleton-art, .spsr-skeleton-lines div { animation: none; }
+}

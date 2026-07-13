@@ -1,0 +1,82 @@
+/* ══════════════════════════════════════════
+   NEBULABEAT — SPOTIFY PROFILE DASHBOARD
+   ══════════════════════════════════════════ */
+
+.spprof-section { display: flex; flex-direction: column; gap: 14px; }
+
+/* ── HEADER ── */
+.spprof-header { display: flex; align-items: center; gap: 12px; }
+.spprof-avatar-wrap { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
+.spprof-avatar {
+  width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+  border: 2px solid rgba(30,215,96,.3);
+}
+.spprof-avatar-fallback {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: linear-gradient(135deg, #1db954, #1ed760);
+  color: #04050f; font-size: 22px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+}
+.spprof-header-info { min-width: 0; }
+.spprof-name-row { display: flex; align-items: center; gap: 7px; }
+.spprof-name {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: #fff;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.spprof-premium-badge {
+  display: inline-flex; flex-shrink: 0;
+  font-size: 8.5px; font-weight: 800; letter-spacing: .5px;
+  padding: 2px 6px; border-radius: 5px;
+  background: linear-gradient(135deg, #1db954, #1ed760);
+  color: #04050f;
+}
+.spprof-followers { font-size: 12px; color: rgba(255,255,255,.4); }
+
+/* ── META GRID ── */
+.spprof-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.spprof-meta-item {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 12px; border-radius: 10px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+}
+.spprof-meta-label { font-size: 9px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: rgba(255,255,255,.3); }
+.spprof-meta-value { font-size: 13px; font-weight: 600; color: #fff; }
+
+/* ── LINK ── */
+.spprof-link {
+  display: inline-block; align-self: flex-start;
+  font-size: 12px; font-weight: 600; color: #1ed760;
+  text-decoration: none; transition: opacity .2s;
+}
+.spprof-link:hover { opacity: .75; text-decoration: underline; }
+
+.spprof-divider { height: 1px; background: rgba(255,255,255,.07); }
+
+/* ── LISTENING STATS ── */
+.spprof-stats-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+.spprof-genre-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.spprof-genre-chip {
+  font-size: 11px; font-weight: 600; color: #1ed760;
+  background: rgba(30,215,96,.12); border: 1px solid rgba(30,215,96,.25);
+  padding: 4px 10px; border-radius: 20px;
+}
+.spprof-stat-empty { font-size: 11px; color: rgba(255,255,255,.3); }
+
+.spprof-stat-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.spprof-stat-label { font-size: 11.5px; color: rgba(255,255,255,.4); flex-shrink: 0; }
+.spprof-stat-value {
+  font-size: 12.5px; font-weight: 600; color: #fff; text-align: right;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* ── RECENT ACTIVITY ── */
+.spprof-recent-activity {
+  font-size: 12px; color: rgba(255,255,255,.5);
+  padding: 10px 12px; border-radius: 10px;
+  background: rgba(255,255,255,.03);
+}
+.spprof-recent-activity strong { color: #fff; }
