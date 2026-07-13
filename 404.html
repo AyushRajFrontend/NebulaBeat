@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>NebulaBeat</title>
+<style>
+  html,body{height:100%;margin:0;background:#04050f;color:#fff;font-family:Inter,system-ui,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center}
+  .wrap{padding:24px}
+  .spin{width:34px;height:34px;margin:0 auto 18px;border-radius:50%;border:3px solid rgba(52,211,153,.2);border-top-color:#34d399;animation:sp .8s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  p{color:rgba(255,255,255,.5);font-size:14px}
+  a{color:#34d399}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="spin"></div>
+    <p>Opening your room…</p>
+    <noscript><p><a href="/NebulaBeat/">Continue to NebulaBeat</a></p></noscript>
+  </div>
+  <script>
+    (function () {
+      var path = window.location.pathname;
+      var m = path.match(/^(.*?)\/room\/([^\/?#]+)\/?$/i);
+      if (m) {
+        var base = m[1] || '';
+        var code = decodeURIComponent(m[2]);
+        window.location.replace(base + '/?room=' + encodeURIComponent(code));
+      } else {
+        
+        window.location.replace('/NebulaBeat/');
+      }
+    })();
+  </script>
+</body>
+</html>
